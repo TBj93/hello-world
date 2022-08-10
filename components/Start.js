@@ -25,6 +25,8 @@ export default class Start extends React.Component()   {
    this.state = { name: '' };
  }
 
+Colors: [];
+
  render() {
    return (
     
@@ -42,10 +44,9 @@ export default class Start extends React.Component()   {
        />
        <Text>You wrote: {this.state.text}</Text>
        <Button
-  onPress={() => {
-    this.alertMyText({name: this.state.name});
-  }}
-  title="Press Me"
+  
+
+  
 />
 </ImageBackground>
      </View>
