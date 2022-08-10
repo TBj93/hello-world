@@ -27,7 +27,7 @@ export default function App() {
           component={Start}
         />
         <Stack.Screen
-          name="Screen2"
+          name="Chat"
           component={Chat}
         />
       </Stack.Navigator>
