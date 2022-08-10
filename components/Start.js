@@ -11,7 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput,Button,  Text,
+import { StyleSheet, View, Text,  Button,  
     TextInput,
 
     ImageBackground, } from 'react-native';
@@ -22,7 +22,7 @@ import BackgroundImage from "../assets/Background Image.png";
 export default class Start extends React.Component()   {
  constructor(props) {
    super(props);
-   this.state = { text: '' };
+   this.state = { name: '' };
  }
 
  render() {
@@ -36,14 +36,14 @@ export default class Start extends React.Component()   {
         >
        <TextInput
          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-         onChangeText={(text) => this.setState({text})}
-         value={this.state.text}
+         onChangeText={(name) => this.setState({name})}
+         value={this.state.name}
          placeholder='Type here ...'
        />
        <Text>You wrote: {this.state.text}</Text>
        <Button
   onPress={() => {
-    this.alertMyText({text: this.state.text});
+    this.alertMyText({name: this.state.name});
   }}
   title="Press Me"
 />
