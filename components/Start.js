@@ -8,7 +8,7 @@ import 'react-native-gesture-handler';
 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ImageBackground,
+import { StyleSheet, View, Text, TextInput, Pressable, TouchableOpacity, ImageBackground,
  } from 'react-native';
 
 import BackgroundImage from "../assets/BackgroundImage.png";
@@ -41,7 +41,11 @@ export default class Start extends React.Component {
     return (
       <View style={{flex:1, justifyContent: 'center', alignItems: 'center'  }}>
         <ImageBackground source={BackgroundImage} resizeMode="cover" style={styles.image}>
-        
+        <View style={styles.titleFrame}>
+          <Text style={styles.title}>ChatPro</Text>
+              </View>
+
+
        <TextInput
          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
          onChangeText={(name) => this.setState({name})}
@@ -80,14 +84,16 @@ export default class Start extends React.Component {
 </TouchableOpacity>
 </View>
 
-        <Button
-          title="Go to Chat"
+<Pressable style={styles.button}
+        
           onPress={() => this.props.navigation.navigate('Chat', { 
             name: this.state.name,
             bgColor: this.state.bgColor
-
            })}
-        />
+        >
+  <Text style={styles.pressText}>Start Chatting</Text>
+</Pressable>
+
 
 </ImageBackground>
       </View>
@@ -98,6 +104,25 @@ export default class Start extends React.Component {
 
 
 const styles = StyleSheet.create({
+
+  button: {
+    width: "88%",
+    height: 70,
+    borderRadius: 8,
+    backgroundColor: "grey",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  pressText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  title : {
+    fontSize: 45,
+    fontWeight: "600",
+    color: "#FFFFFF",
+  },
   container: {
     flex: 1,
     backgroundColor: "#faebd7",
