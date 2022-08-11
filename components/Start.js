@@ -12,6 +12,7 @@ import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity
  } from 'react-native';
 
 import BackgroundImage from "../assets/Background Image.png";
+import { Directions } from 'react-native-gesture-handler';
 
 
 export default class Start extends React.Component {
@@ -48,7 +49,7 @@ export default class Start extends React.Component {
          placeholder='Your name'
        />
        <Text>Your name: {this.state.name}</Text>
-    
+       <View style={styles.colorFrame}>
 
        <TouchableOpacity style={styles.color1}
   onPress={() => 
@@ -57,6 +58,27 @@ export default class Start extends React.Component {
 >
 </TouchableOpacity>
 
+<TouchableOpacity style={styles.color2}
+  onPress={() => 
+    this.setBgColor(this.colors.red)
+  }
+>
+</TouchableOpacity>
+
+<TouchableOpacity style={styles.color3}
+  onPress={() => 
+    this.setBgColor(this.colors.yellow)
+  }
+>
+</TouchableOpacity>
+
+<TouchableOpacity style={styles.color4}
+  onPress={() => 
+    this.setBgColor(this.colors.blue)
+  }
+>
+</TouchableOpacity>
+</View>
 
         <Button
           title="Go to Chat"
@@ -82,12 +104,36 @@ const styles = StyleSheet.create({
   },
 color1: {
   backgroundColor: "green",
-
-
   padding: 10,
   width: 50,
   height: 50,
   borderRadius:25
+},
+color2: {
+  backgroundColor: "red",
+  padding: 10,
+  width: 50,
+  height: 50,
+  borderRadius:25
+},
+color3: {
+  backgroundColor: "yellow",
+  padding: 10,
+  width: 50,
+  height: 50,
+  borderRadius:25
+},
+color4: {
+  backgroundColor: "blue",
+  padding: 10,
+  width: 50,
+  height: 50,
+  borderRadius:25
+},
+colorFrame: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  width: "80%"
 }
 
  
