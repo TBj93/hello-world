@@ -8,7 +8,7 @@ import 'react-native-gesture-handler';
 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, Button,  
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity 
  } from 'react-native';
 
 import BackgroundImage from "../assets/Background Image.png";
@@ -50,13 +50,14 @@ export default class Start extends React.Component {
        <Text>Your name: {this.state.name}</Text>
     
 
-<Button style={styles.color1}
+       <TouchableOpacity style={styles.color1}
   onPress={() => 
     this.setBgColor(this.colors.green)
   }
-  title="change to green"
-/>
-       
+>
+</TouchableOpacity>
+
+
         <Button
           title="Go to Chat"
           onPress={() => this.props.navigation.navigate('Chat', { 
@@ -78,13 +79,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#faebd7",
     alignItems: 'center',
     justifyContent: 'center',
-
+  },
 color1: {
-  backgroundColor: "#1DA01B",
+  backgroundColor: "green",
+
+
+  padding: 10,
   width: 50,
   height: 50,
   borderRadius:25
 }
 
-  },
+ 
 });
