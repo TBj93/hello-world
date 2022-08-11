@@ -8,10 +8,10 @@ import 'react-native-gesture-handler';
 
 
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity 
+import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ImageBackground,
  } from 'react-native';
 
-import BackgroundImage from "../assets/Background Image.png";
+import BackgroundImage from "../assets/BackgroundImage.png";
 import { Directions } from 'react-native-gesture-handler';
 
 
@@ -35,12 +35,12 @@ export default class Start extends React.Component {
   };
 
   setBgColor = (color) =>    this.setState({ bgColor: color });
-
+ 
  
   render() {
     return (
       <View style={{flex:1, justifyContent: 'center', alignItems: 'center'  }}>
-        
+        <ImageBackground source={BackgroundImage} resizeMode="cover" style={styles.image}>
         
        <TextInput
          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
@@ -88,6 +88,8 @@ export default class Start extends React.Component {
 
            })}
         />
+
+</ImageBackground>
       </View>
     )
   }
@@ -134,7 +136,12 @@ colorFrame: {
   flexDirection: "row",
   justifyContent: "space-between",
   width: "80%"
-}
-
+},
+image: {
+  flex: 1,
+  width: "100%",
+  alignItems: "center",
+  justifyContent: "center",
+},
  
 });
