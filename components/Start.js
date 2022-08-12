@@ -39,21 +39,21 @@ export default class Start extends React.Component {
  
   render() {
     return (
-      <View style={{flex:1, justifyContent: 'center', alignItems: 'center'  }}>
+      <View style={  styles.container}>
         <ImageBackground source={BackgroundImage} resizeMode="cover" style={styles.image}>
         <View style={styles.titleFrame}>
           <Text style={styles.title}>ChatPro</Text>
               </View>
 
               <View style={styles.box}>
-       
+              <View style={styles.inputBox}>
        <TextInput
-         style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+         style={styles.TextInput}
          onChangeText={(name) => this.setState({name})}
          value={this.state.name}
          placeholder='Your name'
        />
-       <Text>Your name: {this.state.name}</Text>
+      </View>
 
 
                <View style={styles.chooseBox}>
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
   },
 
  chooseBox: {
+  flex:0.3,
     marginRight: "auto",
     paddingLeft: 15,
     width: "80%",
@@ -143,9 +144,10 @@ const styles = StyleSheet.create({
     width: "88%",
     justifyContent: "space-around",
     alignItems: "center",
+    marginBottom:30,
   },
   button: {
-    width: "80%",
+    width: "88%",
     height: 70,
     borderRadius: 6,
     backgroundColor: "#757083",
@@ -162,19 +164,41 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#FFFFFF",
   },
-
-  inputBox: {
-    borderWidth: 2,
-    borderRadius: 1,
-    borderColor: "grey",
-    width: "88%",
-    height: 60,
-    paddingLeft: 20,
-    flexDirection: "row",
+  titleFrame : {
+    width: "60%",
+    height: "auto",
     alignItems: "center",
+    marginTop: 50,
+    resizeMode: "contain",
+    flex: 1,
   },
 
+  inputBox: {
+    flex: 0.3,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    backgroundColor: "#ffffff",
+    borderWidth: 1,
+    borderColor: "#000",
+    height: 50,
+    width: '88%',
+    borderRadius: 5,
+    marginTop:20,
+    marginBottom: 40,
+    padding:10,
+  },
+  TextInput: {
+    marginTop:5,
+    fontSize: 16,
+    fontWeight: '300',
+    opacity: .5,
+    color: "#888",
+
+  },
+ 
+
   colorFrame: {
+    flex: 0.3,
     flexDirection: "row",
     justifyContent: "space-between",
     width: "80%"
