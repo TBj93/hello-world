@@ -45,7 +45,8 @@ export default class Start extends React.Component {
           <Text style={styles.title}>ChatPro</Text>
               </View>
 
-
+              <View style={styles.box}>
+       
        <TextInput
          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
          onChangeText={(name) => this.setState({name})}
@@ -53,8 +54,13 @@ export default class Start extends React.Component {
          placeholder='Your name'
        />
        <Text>Your name: {this.state.name}</Text>
-       <View style={styles.colorFrame}>
 
+
+               <View style={styles.chooseBox}>
+       <Text style={styles.chooseTtitle}>Choose Background Color</Text>
+       </View>
+       <View style={styles.colorFrame}>
+     
        <TouchableOpacity style={styles.color1}
   onPress={() => 
     this.setBgColor(this.colors.green)
@@ -93,6 +99,7 @@ export default class Start extends React.Component {
         >
   <Text style={styles.pressText}>Start Chatting</Text>
 </Pressable>
+</View>
 
 
 </ImageBackground>
@@ -105,11 +112,43 @@ export default class Start extends React.Component {
 
 const styles = StyleSheet.create({
 
-  button: {
+  container: {
+    flex: 1,
+  },
+  image: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+ chooseBox: {
+    marginRight: "auto",
+    paddingLeft: 15,
+    width: "80%",
+  },
+
+  chooseTtitle: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: "300",
+    color: "#757083",
+    opacity: 1,
+    marginBottom: 10,
+  },
+
+  box: {
+    backgroundColor: "#FFFFFF",
+    height: "44%",
     width: "88%",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  button: {
+    width: "80%",
     height: 70,
-    borderRadius: 8,
-    backgroundColor: "grey",
+    borderRadius: 6,
+    backgroundColor: "#757083",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -123,11 +162,22 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#FFFFFF",
   },
-  container: {
-    flex: 1,
-    backgroundColor: "#faebd7",
-    alignItems: 'center',
-    justifyContent: 'center',
+
+  inputBox: {
+    borderWidth: 2,
+    borderRadius: 1,
+    borderColor: "grey",
+    width: "88%",
+    height: 60,
+    paddingLeft: 20,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  colorFrame: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "80%"
   },
 color1: {
   backgroundColor: "green",
@@ -157,16 +207,7 @@ color4: {
   height: 50,
   borderRadius:25
 },
-colorFrame: {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  width: "80%"
-},
-image: {
-  flex: 1,
-  width: "100%",
-  alignItems: "center",
-  justifyContent: "center",
-},
+
+
  
 });
