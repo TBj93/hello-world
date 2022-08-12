@@ -123,10 +123,12 @@ const styles = StyleSheet.create({
   },
 
  chooseBox: {
-  flex:0.3,
+  flex:0.2,
     marginRight: "auto",
     paddingLeft: 15,
-    width: "80%",
+    width: "88%",
+
+ 
   },
 
   chooseTtitle: {
@@ -147,12 +149,16 @@ const styles = StyleSheet.create({
     marginBottom:30,
   },
   button: {
+    flex:0.25,
     width: "88%",
-    height: 70,
+    height: 40,
     borderRadius: 6,
     backgroundColor: "#757083",
     alignItems: "center",
     justifyContent: "center",
+    
+    marginBottom: 20,
+    padding:10,
   },
   pressText: {
     color: "#FFFFFF",
@@ -174,17 +180,17 @@ const styles = StyleSheet.create({
   },
 
   inputBox: {
-    flex: 0.3,
+    flex: 0.25,
     flexDirection: "row",
     alignItems: "flex-start",
     backgroundColor: "#ffffff",
     borderWidth: 1,
     borderColor: "#000",
-    height: 50,
+    height: 40,
     width: '88%',
     borderRadius: 5,
     marginTop:20,
-    marginBottom: 40,
+    marginBottom: 30,
     padding:10,
   },
   TextInput: {
@@ -198,10 +204,11 @@ const styles = StyleSheet.create({
  
 
   colorFrame: {
-    flex: 0.3,
+    flex: 0.25,
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "80%"
+    width: "88%",
+    marginBottom: 40,
   },
 color1: {
   backgroundColor: "green",
