@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
 
  chooseBox: {
-  flex:0.2,
+  flex:0.4,
     marginRight: "auto",
     paddingLeft: 15,
     width: "88%",
@@ -141,24 +141,30 @@ const styles = StyleSheet.create({
   },
 
   box: {
-    backgroundColor: "#FFFFFF",
+ 
     height: "44%",
     width: "88%",
-    justifyContent: "space-around",
+    marginBottom: 30,
+    backgroundColor: "#ffffff",
+    flexGrow: 1,
+    flexShrink: 0,
+    flexDirection: "column",
+    justifyContent: "space-evenly",
     alignItems: "center",
-    marginBottom:30,
+    paddingTop: 15,
+    paddingBottom: 15,
+    borderRadius: 10,
+    height: 260,
+    minHeight: 260,
+    maxHeight: 300,
   },
   button: {
-    flex:0.25,
     width: "88%",
-    height: 40,
-    borderRadius: 6,
+    height: 70,
+    borderRadius: 8,
     backgroundColor: "#757083",
     alignItems: "center",
     justifyContent: "center",
-    
-    marginBottom: 20,
-    padding:10,
   },
   pressText: {
     color: "#FFFFFF",
@@ -180,17 +186,15 @@ const styles = StyleSheet.create({
   },
 
   inputBox: {
-    flex: 0.25,
     flexDirection: "row",
     alignItems: "flex-start",
     backgroundColor: "#ffffff",
     borderWidth: 1,
     borderColor: "#000",
-    height: 40,
+    height: 50,
     width: '88%',
     borderRadius: 5,
-    marginTop:20,
-    marginBottom: 30,
+    marginBottom: 40,
     padding:10,
   },
   TextInput: {
@@ -204,11 +208,9 @@ const styles = StyleSheet.create({
  
 
   colorFrame: {
-    flex: 0.25,
+    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "88%",
-    marginBottom: 40,
   },
 color1: {
   backgroundColor: "green",
