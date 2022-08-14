@@ -61,28 +61,48 @@ export default class Start extends React.Component {
        </View>
        <View style={styles.colorFrame}>
      
-       <TouchableOpacity style={styles.color1}
+       <TouchableOpacity
+       accessible={true}
+       accessibilityLabel="Choose color"
+       accessibilityHint="Let’s you choose  color green as background"
+       accessibilityRole="button"
+        style={styles.color1}
   onPress={() => 
     this.setBgColor(this.colors.green)
   }
 >
 </TouchableOpacity>
 
-<TouchableOpacity style={styles.color2}
+<TouchableOpacity
+accessible={true}
+accessibilityLabel="Choose color"
+accessibilityHint="Let’s you choose  color red as background"
+accessibilityRole="button"
+ style={styles.color2}
   onPress={() => 
     this.setBgColor(this.colors.red)
   }
 >
 </TouchableOpacity>
 
-<TouchableOpacity style={styles.color3}
+<TouchableOpacity
+accessible={true}
+accessibilityLabel="Choose color"
+accessibilityHint="Let’s you choose  color yellow as background"
+accessibilityRole="button"
+ style={styles.color3}
   onPress={() => 
     this.setBgColor(this.colors.yellow)
   }
 >
 </TouchableOpacity>
 
-<TouchableOpacity style={styles.color4}
+<TouchableOpacity
+accessible={true}
+accessibilityLabel="Choose color"
+accessibilityHint="Let’s you choose  color blue as background"
+accessibilityRole="button"
+style={styles.color4}
   onPress={() => 
     this.setBgColor(this.colors.blue)
   }
