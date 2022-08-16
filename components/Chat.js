@@ -4,14 +4,50 @@ import { GiftedChat, Bubble} from 'react-native-gifted-chat'
 
 
 
+// import firestore
+
+const firebase = require('firebase');
+require('firebase/firestore');
+
+
+
+
+
+  
 export default class Chat extends React.Component {
 
   constructor() {
     super();
     this.state = {
       messages: [],
+      
     }
+
+    if (!firebase.apps.length){
+      firebase.initializeApp(firebaseConfig);
+     
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyD8tMjFgpH3K0hEglIvz_V51iWXKnkVSt0",
+  authDomain: "test-eb520.firebaseapp.com",
+  projectId: "test-eb520",
+  storageBucket: "test-eb520.appspot.com",
+  messagingSenderId: "933257659465",
+  appId: "1:933257659465:web:487344f74824234e2eab98",
+  measurementId: "G-DQZKPQGD3E"
+};
+}
+
+this.referenceChatMessages = firebase.firestore().collection("messages");
+
+
+
+
+
+
   }
+
 
   componentDidMount() {
   
@@ -29,7 +65,19 @@ export default class Chat extends React.Component {
         },
       ],
     })
+
+    this.referenceChatMessages = firebase.firestore().collection('messages');
+    this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate)
+
   }
+
+
+  componentWillUnmount() {
+    this.unsubscribe();
+ }
+
+
+
 
   onSend(messages = []) {
     this.setState(previousState => ({
