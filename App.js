@@ -8,12 +8,16 @@ import Chat from './components/Chat';
 import 'react-native-gesture-handler';
 
 // import react Navigation
-// import react Navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // create navigator
 const Stack = createStackNavigator();
+
+// import firestore
+
+const firebase = require('firebase');
+require('firebase/firestore');
 
 
 export default function App() {
