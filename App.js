@@ -21,6 +21,25 @@ require('firebase/firestore');
 
 
 export default function App() {
+
+
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8tMjFgpH3K0hEglIvz_V51iWXKnkVSt0",
+      authDomain: "test-eb520.firebaseapp.com",
+      projectId: "test-eb520",
+      storageBucket: "test-eb520.appspot.com",
+      messagingSenderId: "933257659465",
+      appId: "1:933257659465:web:487344f74824234e2eab98",
+      measurementId: "G-DQZKPQGD3E"
+    }   
+
+    if (!firebase.apps.length){
+      firebase.initializeApp(firebaseConfig);
+      }
+ 
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator
