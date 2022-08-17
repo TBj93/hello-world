@@ -2,32 +2,23 @@ import React from 'react';
 import { View, Text, Platform, KeyboardAvoidingView } from 'react-native';
 import { GiftedChat, Bubble} from 'react-native-gifted-chat'
 
-
-
-// import firestore
-
+// Importing Firestore 
 const firebase = require('firebase');
 require('firebase/firestore');
 
-
-
-
-
-  
 export default class Chat extends React.Component {
-
   constructor() {
     super();
     this.state = {
       messages: [],
-      
-    }
+      uid: 0,
+      user: {
+        _id: '',
+        name: '',
+      },
+    };
 
-    if (!firebase.apps.length){
-      firebase.initializeApp(firebaseConfig);
-     
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    // initializing Firebase 
 const firebaseConfig = {
   apiKey: "AIzaSyD8tMjFgpH3K0hEglIvz_V51iWXKnkVSt0",
   authDomain: "test-eb520.firebaseapp.com",
@@ -37,52 +28,89 @@ const firebaseConfig = {
   appId: "1:933257659465:web:487344f74824234e2eab98",
   measurementId: "G-DQZKPQGD3E"
 };
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
 }
 
+// Reference to the Firestore collection "messages"
 this.referenceChatMessages = firebase.firestore().collection("messages");
+}
 
-
-
-
-
-
-  }
+onCollectionUpdate = (querySnapshot) => {
+  const messages = [];
+  // go through each document
+  querySnapshot.forEach((doc) => {
+    // get the QueryDocumentSnapshot's data
+    let data = doc.data();
+    messages.push({
+      _id: data._id,
+      text: data.text,
+      createdAt: data.createdAt.toDate(),
+      user: {
+        _id: data.user._id,
+        name: data.user.name,
+      },
+   
+    });
+  });
+  this.setState({
+    messages,
+  });
+};
 
 
   componentDidMount() {
-  
-    this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: 'Hello developer',
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any',
-          },
-        },
-      ],
-    })
 
-    this.referenceChatMessages = firebase.firestore().collection('messages');
-    this.unsubscribe = this.referenceChatMessages.onSnapshot(this.onCollectionUpdate)
+ 
+     let name = this.props.route.params.name; // OR ...
+  //   let { name } = this.props.route.params;
+     this.props.navigation.setOptions({ title: name });
 
-  }
+     // Reference to load messages from Firebase
+     this.referenceChatMessages = firebase.firestore().collection('messages');
 
-
+     // Authenticate user anonymously
+     this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+       if (!user) {
+         firebase.auth().signInAnonymously();
+       }
+       this.setState({
+        
+         messages: [],
+         user: {
+           _id: user.uid,
+           name: name,
+         },
+       
+       });
+       this.unsubscribe = this.referenceChatMessages
+         .orderBy('createdAt', 'desc')
+         .onSnapshot(this.onCollectionUpdate);
+     });
+   }
   componentWillUnmount() {
     this.unsubscribe();
  }
 
+ 
+addMessages() { 
+
+  this.referenceChatMessages.add({
+    _id: message._id,
+    text: message.text || null,
+    createdAt: message.createdAt,
+      user: message.user,
+      uid: this.state.uid,
+  });
+}
 
 
 
   onSend(messages = []) {
     this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, messages),
-    }))
+      messages: GiftedChat.append(previousState.messages, messages), }), () => { this.addMessages(this.state.messages[0]);
+    })
   }
   renderBubble(props) {
     return (
@@ -98,9 +126,7 @@ this.referenceChatMessages = firebase.firestore().collection("messages");
   }
 
   render() {
-    //let name = this.props.route.params.name; // OR ...
-    let { name } = this.props.route.params;
-    this.props.navigation.setOptions({ title: name });
+   
      let  {bgColor} = this.props.route.params;
     return (
     
@@ -110,7 +136,9 @@ this.referenceChatMessages = firebase.firestore().collection("messages");
   messages={this.state.messages}
   onSend={messages => this.onSend(messages)}
   user={{
-    _id: 1,
+    _id: this.state.user._id,
+    name: this.state.name,
+
   }}
   
 />
