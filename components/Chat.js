@@ -8,24 +8,12 @@ import firebase from "firebase";
 import "firebase/firestore";
 
 
-export default class Chat extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      messages: [],
-      uid: 0,
-      user: {
-        _id: '',
-        name: '',
-      },
-    };
-
-
-
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyCKHPR_S_ltwETGbh8YkQwcTKB6JAMq1GE",
   authDomain: "chatpro-b4381.firebaseapp.com",
@@ -34,6 +22,24 @@ const firebaseConfig = {
   messagingSenderId: "23525274170",
   appId: "1:23525274170:web:6904773c060d7247117b03"
 };
+
+
+export default class Chat extends React.Component {
+  constructor(props) {
+    super();
+    this.state = {
+      messages: [],
+      uid: 0,
+   
+      user: {
+        _id: '',
+        name: '',
+      },
+    };
+
+
+
+
 
 if (!firebase.apps.length){
   firebase.initializeApp(firebaseConfig);
@@ -60,7 +66,7 @@ onCollectionUpdate = (querySnapshot) => {
     });
   });
   this.setState({
-    messages,
+    messages: messages
   });
 };
 
@@ -68,8 +74,8 @@ onCollectionUpdate = (querySnapshot) => {
   componentDidMount() {
 
  
-     let name = this.props.route.params.name; // OR ...
-  //   let { name } = this.props.route.params;
+   //  let name = this.props.route.params.name; // OR ...
+  let { name } = this.props.route.params;
      this.props.navigation.setOptions({ title: name });
 
      // Reference to load messages from Firebase
@@ -83,6 +89,10 @@ onCollectionUpdate = (querySnapshot) => {
       this.setState({
         uid: user.uid,
         messages: [],
+        user: {
+          _id: user.uid,
+          name: name,
+        } 
       });
       this.unsubscribe = this.referenceChatMessages
         .orderBy("createdAt", "desc")
@@ -94,14 +104,14 @@ onCollectionUpdate = (querySnapshot) => {
  }
 
  
-addMessages() { 
+addMessages(message) { 
 
   this.referenceChatMessages.add({
+     uid: this.state.uid,
     _id: message._id,
-    text: message.text || null,
+    text: message.text || "",
     createdAt: message.createdAt,
-      user: message.user,
-      uid: this.state.uid,
+    user: message.user,
   });
 }
 
@@ -126,7 +136,7 @@ addMessages() {
   }
 
   render() {
-   
+
      let  {bgColor} = this.props.route.params;
     return (
     
@@ -135,11 +145,7 @@ addMessages() {
          renderBubble={this.renderBubble.bind(this)}
   messages={this.state.messages}
   onSend={messages => this.onSend(messages)}
-  user={{
-    _id: this.state.user._id,
-    name: this.state.name,
-
-  }}
+  user={this.state.user}
   
 />
 { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null
