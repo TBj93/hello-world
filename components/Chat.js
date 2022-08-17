@@ -2,9 +2,11 @@ import React from 'react';
 import { View, Text, Platform, KeyboardAvoidingView } from 'react-native';
 import { GiftedChat, Bubble} from 'react-native-gifted-chat'
 
-// Importing Firestore 
-const firebase = require('firebase');
-require('firebase/firestore');
+
+
+import firebase from "firebase";
+import "firebase/firestore";
+
 
 export default class Chat extends React.Component {
   constructor() {
@@ -18,21 +20,24 @@ export default class Chat extends React.Component {
       },
     };
 
-    // initializing Firebase 
+
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyD8tMjFgpH3K0hEglIvz_V51iWXKnkVSt0",
-  authDomain: "test-eb520.firebaseapp.com",
-  projectId: "test-eb520",
-  storageBucket: "test-eb520.appspot.com",
-  messagingSenderId: "933257659465",
-  appId: "1:933257659465:web:487344f74824234e2eab98",
-  measurementId: "G-DQZKPQGD3E"
+  apiKey: "AIzaSyCKHPR_S_ltwETGbh8YkQwcTKB6JAMq1GE",
+  authDomain: "chatpro-b4381.firebaseapp.com",
+  projectId: "chatpro-b4381",
+  storageBucket: "chatpro-b4381.appspot.com",
+  messagingSenderId: "23525274170",
+  appId: "1:23525274170:web:6904773c060d7247117b03"
 };
 
-if (!firebase.apps.length) {
+if (!firebase.apps.length){
   firebase.initializeApp(firebaseConfig);
 }
-
 // Reference to the Firestore collection "messages"
 this.referenceChatMessages = firebase.firestore().collection("messages");
 }
@@ -72,22 +77,17 @@ onCollectionUpdate = (querySnapshot) => {
 
      // Authenticate user anonymously
      this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
-       if (!user) {
-         firebase.auth().signInAnonymously();
-       }
-       this.setState({
-        
-         messages: [],
-         user: {
-           _id: user.uid,
-           name: name,
-         },
-       
-       });
-       this.unsubscribe = this.referenceChatMessages
-         .orderBy('createdAt', 'desc')
-         .onSnapshot(this.onCollectionUpdate);
-     });
+      if (!user) {
+        firebase.auth().signInAnonymously();
+      }
+      this.setState({
+        uid: user.uid,
+        messages: [],
+      });
+      this.unsubscribe = this.referenceChatMessages
+        .orderBy("createdAt", "desc")
+        .onSnapshot(this.onCollectionUpdate);
+    });
    }
   componentWillUnmount() {
     this.unsubscribe();
