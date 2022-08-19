@@ -93,8 +93,21 @@ async getMessages() {
   let { name } = this.props.route.params;
      this.props.navigation.setOptions({ title: name });
 
-     //get messages 
-     this.getMessages();
+// check for user online and decide to get data from async storage or firebase
+     NetInfo.fetch().then(connection => {
+      if (connection.isConnected) {
+        console.log('online');
+           //get messages 
+    
+
+
+
+      } else {
+        console.log('offline');
+      }
+    });
+
+  
 
 
      // Reference to load messages from Firebase
@@ -144,12 +157,27 @@ addMessages(message) {
 }
 
 
+// delete function for testing
+async deleteMessages() {
+  try {
+    await AsyncStorage.removeItem('messages');
+    this.setState({
+      messages: []
+    })
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 
   onSend(messages = []) {
     this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, messages), }), () => { this.addMessages(this.state.messages[0]);
+      messages: GiftedChat.append(previousState.messages, messages), }), () => { 
+        this.addMessages(this.state.messages[0]);
+        this.saveMessages()
+      //  this.deleteMessages()
     })
-    this.saveMessages();
+ 
   }
   renderBubble(props) {
     return (
