@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Platform, KeyboardAvoidingView } from 'react-native';
-import { GiftedChat, Bubble} from 'react-native-gifted-chat'
+import { GiftedChat, Bubble, InputToolbar} from 'react-native-gifted-chat'
 
 
 
@@ -38,6 +38,8 @@ export default class Chat extends React.Component {
         _id: '',
         name: '',
       },
+isConnected: null
+
     };
 
 
@@ -97,19 +99,23 @@ async getMessages() {
      NetInfo.fetch().then(connection => {
       if (connection.isConnected) {
         console.log('online');
-           //get messages 
-    
+        this.setState({
+      isConnected: true
+      })
 
 
 
       } else {
+    
         console.log('offline');
+        this.setState({
+          isConnected: false
+        })
+
+
+        this.getMessages()
       }
-    });
-
   
-
-
      // Reference to load messages from Firebase
      this.referenceChatMessages = firebase.firestore().collection('messages');
 
@@ -130,9 +136,15 @@ async getMessages() {
         .orderBy("createdAt", "desc")
         .onSnapshot(this.onCollectionUpdate);
     });
+
+  });
    }
   componentWillUnmount() {
+    if (this.state.isConnected == true) {
+
     this.unsubscribe();
+    this.authUnsubscribe();
+    }
  }
 
 
@@ -192,6 +204,18 @@ async deleteMessages() {
     )
   }
 
+
+  renderInputToolbar(props) {
+    if (this.state.isConnected == false) {
+    } else {
+      return(
+        <InputToolbar
+        {...props}
+        />
+      );
+    }
+  }
+
   render() {
 
      let  {bgColor} = this.props.route.params;
@@ -199,6 +223,7 @@ async deleteMessages() {
     
       <View style={{flex:1, justifyContent: 'center', backgroundColor: bgColor}}>
         <GiftedChat
+            renderInputToolbar={this.renderInputToolbar.bind(this)}
          renderBubble={this.renderBubble.bind(this)}
   messages={this.state.messages}
   onSend={messages => this.onSend(messages)}
