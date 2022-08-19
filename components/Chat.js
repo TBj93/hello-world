@@ -7,6 +7,9 @@ import { GiftedChat, Bubble} from 'react-native-gifted-chat'
 import firebase from "firebase";
 import "firebase/firestore";
 
+import NetInfo from '@react-native-community/netinfo';
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -70,6 +73,18 @@ onCollectionUpdate = (querySnapshot) => {
   });
 };
 
+async getMessages() {
+  let messages = '';
+  try {
+    messages = await AsyncStorage.getItem('messages') || [];
+    this.setState({
+      messages: JSON.parse(messages)
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 
   componentDidMount() {
 
@@ -77,6 +92,10 @@ onCollectionUpdate = (querySnapshot) => {
    //  let name = this.props.route.params.name; // OR ...
   let { name } = this.props.route.params;
      this.props.navigation.setOptions({ title: name });
+
+     //get messages 
+     this.getMessages();
+
 
      // Reference to load messages from Firebase
      this.referenceChatMessages = firebase.firestore().collection('messages');
@@ -103,6 +122,15 @@ onCollectionUpdate = (querySnapshot) => {
     this.unsubscribe();
  }
 
+
+ async saveMessages() {
+  try {
+    await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
  
 addMessages(message) { 
 
@@ -121,6 +149,7 @@ addMessages(message) {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages), }), () => { this.addMessages(this.state.messages[0]);
     })
+    this.saveMessages();
   }
   renderBubble(props) {
     return (
