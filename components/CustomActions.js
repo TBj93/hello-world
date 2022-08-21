@@ -2,7 +2,64 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
+
+
+import firebase from "firebase";
+import "firebase/firestore";
+
+
 export default class CustomActions extends React.Component {
+
+
+
+
+    pickImage = async () => {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+     
+        if(status === 'granted') {
+          let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: 'Images',
+          }).catch(error => console.log(error));
+     
+          if (!result.cancelled) {
+            this.setState({
+              image: result
+            });  
+          }
+     
+        }
+      }
+
+
+      getLocation = async () => {
+        const { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if(status === 'granted') {
+          let result = await Location.getCurrentPositionAsync({});
+     
+          if (result) {
+            this.setState({
+              location: result
+            });
+          }
+        }
+      }
+      
+  takePhoto = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL, Permissions.CAMERA);
+    if (status === 'granted') {
+      let result = await ImagePicker.launchCameraAsync().catch(error => console.log(error));
+
+      if (!result.cancelled) {
+        this.setState({
+          image: result
+        });
+      }
+    }
+  }
 
 
 
@@ -31,9 +88,17 @@ export default class CustomActions extends React.Component {
       };
 
 
+
+
 render() {
     return (
-      <TouchableOpacity style={[styles.container]} onPress={this.onActionPress}>
+        <TouchableOpacity
+        accessible={true}
+        accessibilityLabel="More options"
+        accessibilityHint="Let’s you choose to send an image or your geolocation."
+        style={[styles.container]}
+        onPress={this.onActionPress}
+      >
         <View style={[styles.wrapper, this.props.wrapperStyle]}>
           <Text style={[styles.iconText, this.props.iconTextStyle]}>+</Text>
         </View>
@@ -62,3 +127,7 @@ render() {
       textAlign: 'center',
     },
    });
+
+   CustomActions.contextTypes = {
+    actionSheet: PropTypes.func,
+   };
