@@ -2,7 +2,13 @@ import React from 'react';
 import { View, Text, Platform, KeyboardAvoidingView } from 'react-native';
 import { GiftedChat, Bubble, InputToolbar} from 'react-native-gifted-chat'
 
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 
+import CustomActions from './CustomActions';
+
+import * as Location from 'expo-location';
+import MapView from 'react-native-maps';
 
 import firebase from "firebase";
 import "firebase/firestore";
@@ -216,6 +222,10 @@ async deleteMessages() {
     }
   }
 
+  renderCustomActions = (props) => {
+    return <CustomActions {...props} />;
+  };
+
   render() {
 
      let  {bgColor} = this.props.route.params;
@@ -224,6 +234,7 @@ async deleteMessages() {
       <View style={{flex:1, justifyContent: 'center', backgroundColor: bgColor}}>
         <GiftedChat
             renderInputToolbar={this.renderInputToolbar.bind(this)}
+            renderActions={this.renderCustomActions}
          renderBubble={this.renderBubble.bind(this)}
   messages={this.state.messages}
   onSend={messages => this.onSend(messages)}
