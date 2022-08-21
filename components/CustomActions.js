@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
+
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-
+import { connectActionSheet } from '@expo/react-native-action-sheet'
+import PropTypes from "prop-types";
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
@@ -12,7 +12,7 @@ import firebase from "firebase";
 import "firebase/firestore";
 
 
-export default class CustomActions extends React.Component {
+ class CustomAction extends React.Component {
 
 
 
@@ -66,7 +66,7 @@ export default class CustomActions extends React.Component {
     onActionPress = () => {
         const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
         const cancelButtonIndex = options.length - 1;
-        this.context.actionSheet().showActionSheetWithOptions(
+        this.props.showActionSheetWithOptions(
           {
             options,
             cancelButtonIndex,
@@ -106,6 +106,9 @@ render() {
     );
   }
 }
+
+
+
   const styles = StyleSheet.create({
     container: {
       width: 26,
@@ -128,6 +131,9 @@ render() {
     },
    });
 
-   CustomActions.contextTypes = {
+   CustomAction.contextTypes = {
     actionSheet: PropTypes.func,
    };
+
+   const CustomActions = connectActionSheet(CustomAction);
+   export default CustomActions;
