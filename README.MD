@@ -35,3 +35,16 @@ and location data.
 ● Location data must be sent via the chat in a map view.
 ● The chat interface and functionality must be created using the Gifted Chat library.
 ● The app’s codebase must contain comments.
+
+
+##Install
+
+1. npm install --global expo-cli
+
+2. clone repo with package.json file and run npm install
+
+3. run on phone or android studio emulator
+
+4. type npm start in project folder and follow the instructions
+
+5. choose to run on phone or android studio emulator

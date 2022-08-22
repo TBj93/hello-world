@@ -199,7 +199,7 @@ addMessages(message) {
       messages: GiftedChat.append(previousState.messages, messages), }), () => { 
         this.addMessages(this.state.messages[0]);
         this.saveMessages()
-      //  this.deleteMessages()
+        this.deleteMessages()
     })
  
   }
