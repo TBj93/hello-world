@@ -1,5 +1,8 @@
 ## ChatPro
 
+![This is an image](https://github.com/TBj93/hello-world/blob/master/screenshots/photo_2022-08-22_05-29-25.jpg?raw=true)
+![This is an image](https://github.com/TBj93/hello-world/blob/master/screenshots/photo_2022-08-22_05-29-54.jpg?raw=true)
+![This is an image](https://github.com/TBj93/hello-world/blob/master/screenshots/photo_2022-08-22_05-29-59.jpg?raw=true)
 
 
 ## Features and Requirements
@@ -32,7 +35,7 @@ and location data.
 
 ● Data gets stored online and offline.
 
-###Technical Requirements
+### Technical Requirements
 
 
 ● The app must be written in React Native.
