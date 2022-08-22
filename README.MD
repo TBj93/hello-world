@@ -32,3 +32,6 @@ and location data.
 ● The app must let users take pictures with the device’s camera app, and send them.
 ● The app must store images in Firebase Cloud Storage.
 ● The app must be able to read the user’s location data.
+● Location data must be sent via the chat in a map view.
+● The chat interface and functionality must be created using the Gifted Chat library.
+● The app’s codebase must contain comments.
