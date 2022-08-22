@@ -1,3 +1,6 @@
+
+
+
 import React from 'react';
 import { View, Text, Platform, KeyboardAvoidingView } from 'react-native';
 import { GiftedChat, Bubble, InputToolbar} from 'react-native-gifted-chat'
@@ -17,20 +20,7 @@ import NetInfo from '@react-native-community/netinfo';
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCKHPR_S_ltwETGbh8YkQwcTKB6JAMq1GE",
-  authDomain: "chatpro-b4381.firebaseapp.com",
-  projectId: "chatpro-b4381",
-  storageBucket: "chatpro-b4381.appspot.com",
-  messagingSenderId: "23525274170",
-  appId: "1:23525274170:web:6904773c060d7247117b03"
-};
 
 
 export default class Chat extends React.Component {
@@ -53,13 +43,80 @@ location: null
 
 
 
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCKHPR_S_ltwETGbh8YkQwcTKB6JAMq1GE",
+  authDomain: "chatpro-b4381.firebaseapp.com",
+  projectId: "chatpro-b4381",
+  storageBucket: "chatpro-b4381.appspot.com",
+  messagingSenderId: "23525274170",
+  appId: "1:23525274170:web:6904773c060d7247117b03"
+};
 
 if (!firebase.apps.length){
   firebase.initializeApp(firebaseConfig);
 }
 // Reference to the Firestore collection "messages"
 this.referenceChatMessages = firebase.firestore().collection("messages");
+
 }
+
+componentDidMount() {
+  // Set name as title chat
+  let { name } = this.props.route.params;
+  this.props.navigation.setOptions({ title: name });
+
+  // Check if user is offline or online
+  NetInfo.fetch().then((connection) => {
+    if (connection.isConnected) {
+      this.setState({
+        isConnected: true,
+      });
+
+      // Reference to load messages from Firebase
+      this.referenceChatMessages = firebase
+        .firestore()
+        .collection('messages');
+
+      // Authenticate user anonymously
+      this.authUnsubscribe = firebase
+        .auth()
+        .onAuthStateChanged(async (user) => {
+          if (!user) {
+            firebase.auth().signInAnonymously();
+          }
+          this.setState({
+            uid: user.uid,
+            messages: [],
+            user: {
+              _id: user.uid,
+              name: name,
+            },
+          });
+          this.unsubscribe = this.referenceChatMessages
+            .orderBy('createdAt', 'desc')
+            .onSnapshot(this.onCollectionUpdate);
+        });
+    } else {
+      this.setState({
+        isConnected: false,
+      });
+      this.getMessages();
+    }
+  });
+}
+
+componentWillUnmount() {
+  if (this.isConnected) {
+    this.unsubscribe();
+    this.authUnsubscribe();
+  }
+}
+
 
 onCollectionUpdate = (querySnapshot) => {
   const messages = [];
@@ -75,13 +132,15 @@ onCollectionUpdate = (querySnapshot) => {
         _id: data.user._id,
         name: data.user.name,
       },
-   
+      image: data.image || null,
+      location: data.location || null,
     });
   });
   this.setState({
-    messages: messages
+    messages,
   });
 };
+
 
 async getMessages() {
   let messages = '';
@@ -96,84 +155,13 @@ async getMessages() {
 };
 
 
-  componentDidMount() {
 
- 
-   //  let name = this.props.route.params.name; // OR ...
-  let { name } = this.props.route.params;
-     this.props.navigation.setOptions({ title: name });
-
-// check for user online and decide to get data from async storage or firebase
-     NetInfo.fetch().then(connection => {
-      if (connection.isConnected) {
-        console.log('online');
-        this.setState({
-      isConnected: true
-      })
-
-
-
-      } else {
-    
-        console.log('offline');
-        this.setState({
-          isConnected: false
-        })
-
-
-        this.getMessages()
-      }
-  
-     // Reference to load messages from Firebase
-     this.referenceChatMessages = firebase.firestore().collection('messages');
-
-     // Authenticate user anonymously
-     this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        firebase.auth().signInAnonymously();
-      }
-      this.setState({
-        uid: user.uid,
-        messages: [],
-        user: {
-          _id: user.uid,
-          name: name,
-        } 
-      });
-      this.unsubscribe = this.referenceChatMessages
-        .orderBy("createdAt", "desc")
-        .onSnapshot(this.onCollectionUpdate);
-    });
-
-  });
-   }
-  componentWillUnmount() {
-    if (this.state.isConnected == true) {
-
-    this.unsubscribe();
-    this.authUnsubscribe();
-    }
- }
-
-
- async saveMessages() {
+async saveMessages() {
   try {
     await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
   } catch (error) {
     console.log(error.message);
   }
-}
-
- 
-addMessages(message) { 
-
-  this.referenceChatMessages.add({
-     uid: this.state.uid,
-    _id: message._id,
-    text: message.text || "",
-    createdAt: message.createdAt,
-    user: message.user,
-  });
 }
 
 
@@ -189,6 +177,22 @@ async deleteMessages() {
   }
 }
 
+
+
+
+// Add messages to Firebase 
+addMessages(message) {
+  this.referenceChatMessages.add({
+    uid: this.state.uid,
+    _id: message._id,
+    text: message.text || '',
+    createdAt: message.createdAt,
+    user: message.user,
+    image: message.image || null,
+    location: message.location || null,
+
+  });
+}
 
   onSend(messages = []) {
     this.setState(previousState => ({
@@ -224,10 +228,28 @@ async deleteMessages() {
     }
   }
 
+  renderCustomView(props) {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  }
+
+
   renderCustomActions = (props) => {
     return <CustomActions {...props} />;
   };
-
   render() {
 
      let  {bgColor} = this.props.route.params;
@@ -238,10 +260,10 @@ async deleteMessages() {
             renderInputToolbar={this.renderInputToolbar.bind(this)}
             renderActions={this.renderCustomActions}
          renderBubble={this.renderBubble.bind(this)}
+         renderCustomView={this.renderCustomView}
   messages={this.state.messages}
   onSend={messages => this.onSend(messages)}
-  user={this.state.user}
-  
+  user={{ _id: this.state.user._id, name: this.state.user.name }}
 />
 { Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null
  }
