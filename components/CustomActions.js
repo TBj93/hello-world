@@ -2,8 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
-import * as Permissions from "expo-permissions";
+
+
+//import * as Permissions from "expo-permissions";
 import * as ImagePicker from 'expo-image-picker';
+
+
 import * as Location from 'expo-location';
 import firebase from 'firebase';
 import 'firebase/firestore';
@@ -76,7 +80,7 @@ class CustomAction extends React.Component {
           const imageUrl = await this.uploadImageFetch(result.uri);
 
           this.props.onSend({ image: imageUrl });
-          console.log('props.onSend triggered', imageUrl);
+         
         }
       }
     } catch (error) {
@@ -116,7 +120,7 @@ class CustomAction extends React.Component {
       'Send Location',
       'Cancel',
     ];
-    const cancelButtonIndex = 3;
+    const cancelButtonIndex = options.length-1;
 
     this.props.showActionSheetWithOptions(
       {
