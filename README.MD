@@ -52,7 +52,15 @@ and location data.
 ● The chat interface and functionality must be created using the Gifted Chat library.
 ● The app’s codebase must contain comments.
 
+## Technology used
 
+● React Native
+● Bootstrap
+
+
+## Challenges I faced
+
+The firbase security rules weren't automatically fitting for my needs to upload pictures to the database. I first checked for problems with cors in general, later found a good thread on stackoverflow describing my problem and solving it.
 
 ## Install
 
