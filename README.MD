@@ -1,8 +1,17 @@
 ## ChatPro
 
+## Description
+
+This is a basic chat app. It runs on expo using React native and hosts files sent on google firebase. It uses Gitlibrary as a UI.
+
+Here you can download a demo video: 
+
+[Demo Video](https://github.com/TBj93/hello-world/blob/master/demo%20video/ChatPro.mp4)
+
+
 ![This is an image](https://github.com/TBj93/hello-world/blob/master/screenshots/photo_2022-08-22_05-29-25.jpg?raw=true)
 
-![This is an image](https://github.com/TBj93/hello-world/blob/master/screenshots/photo_2022-08-22_05-29-59.jpg?raw=true)
+
 
 
 ## Features and Requirements
@@ -35,6 +44,8 @@ and location data.
 
 ● Data gets stored online and offline.
 
+![This is an image](https://github.com/TBj93/hello-world/blob/master/screenshots/photo_2022-08-22_05-29-59.jpg?raw=true)
+
 ### Technical Requirements
 
 
@@ -54,13 +65,16 @@ and location data.
 
 ## Technology used
 
+● Html, Css, JS
 ● React Native
 ● Bootstrap
+● Gitlibrary
+● Expo
 
 
 ## Challenges I faced
 
-The firbase security rules weren't automatically fitting for my needs to upload pictures to the database. I first checked for problems with cors in general, later found a good thread on stackoverflow describing my problem and solving it.
+The firebase security rules weren't automatically fitting for my needs to upload pictures to the database. I first checked for problems with cors in general, later found a good thread on stackoverflow describing my problem and solving it.
 
 ## Install
 
