@@ -2,11 +2,11 @@
 
 ## Description
 
-This is a basic chat app. It runs on expo using React native and hosts files sent on google firebase. It uses Gitlibrary as a UI.
+This is a basic chat app. It runs on expo using React native and hosts files sent via the chat app on google firebase. It uses Gitlibrary as an UI.
 
 Here you can download a demo video: 
 
-[Demo Video](https://github.com/TBj93/hello-world/blob/master/demo%20video/ChatPro.mp4)
+[Demo Video](https://youtu.be/7Qg4VieA6qw)
 
 
 ![This is an image](https://github.com/TBj93/hello-world/blob/master/screenshots/photo_2022-08-22_05-29-25.jpg?raw=true)
